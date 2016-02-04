@@ -1,9 +1,10 @@
-data = '{"type": "movie", "image_movie":"http://image.tmdb.org/t/p/w300/tcqb9NHdw9SWs2a88KCDD4V8sVR.jpg", "id":19995,"imdb_id":"tt0499549","overview":"In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.","poster_path":"/tcqb9NHdw9SWs2a88KCDD4V8sVR.jpg","release_date":"2009-12-10","status":"Released","tagline":"Enter the World of Pandora.","title":"Avatar","vote_average":7.1,"actors":[{"cast_id":"242","character":"Jake Sully","credit_id":"5602a8a7c3a3685532001c9a","id":65731,"name":"Sam Worthington","order":0,"profile_path":"/9XzAE3ZnCnazub4xrSY8YBN7sNq.jpg"},{"cast_id":245,"character":"Neytiri","credit_id":"52fe48009251416c750ac9cb","id":8691,"name":"Zoe Saldana","order":1,"profile_path":"/g8nuPwQ9CXxfTVWK4r3TaxfQGqI.jpg"},{"cast_id":25,"character":"Dr. Grace Augustine","credit_id":"52fe48009251416c750aca39","id":10205,"name":"Sigourney Weaver","order":2,"profile_path":"/bcDb0vbfWZBHo1QEh9oQVRs3vx2.jpg"},{"cast_id":4,"character":"Col. Quaritch","credit_id":"52fe48009251416c750ac9cf","id":32747,"name":"Stephen Lang","order":3,"profile_path":"/tqF6ibURpLvRPlgvLRvjCQqWaa2.jpg"},{"cast_id":5,"character":"Trudy Chacon","credit_id":"52fe48009251416c750ac9d3","id":17647,"name":"Michelle Rodriguez","order":4,"profile_path":"/v37VK0MNuRuJOCKPKJcZAJXRA5r.jpg"},'+
-'{"cast_id":8,"character":"Selfridge","credit_id":"52fe48009251416c750ac9e1","id":1771,"name":"Giovanni Ribisi","order":5,"profile_path":"/mLQrEU7X7GD5V7i1clGRqpg8PVk.jpg"},{"cast_id":7,"character":"Norm Spellman","credit_id":"52fe48009251416c750ac9dd","id":59231,"name":"Joel David Moore","order":6,"profile_path":"/y6AyGCsQHLoi4LegSS7VRtgRyJe.jpg"},{"cast_id":9,"character":"Moat","credit_id":"52fe48009251416c750ac9e5","id":30485,"name":"CCH Pounder","order":7,"profile_path":"/4Xu155Rt87p42HVxI2L6Hf9AB4w.jpg"},{"cast_id":11,"character":"Eytukan","credit_id":"52fe48009251416c750ac9ed","id":15853,"name":"Wes Studi","order":8,"profile_path":"/xwmhqIx6HU2dACyZ2BxGnCWJoXz.jpg"},{"cast_id":10,"character":"Tsu\'Tey","credit_id":"52fe48009251416c750ac9e9","id":10964,"name":"Laz Alonso","order":9,"profile_path":"/6zqlURffzAErl4g4d8kiUWYWmoz.jpg"}]}';
+var data = '{"type":"movie","title":"Avatar","image":"http://image.tmdb.org/t/p/w300/tcqb9NHdw9SWs2a88KCDD4V8sVR.jpg","vote_average":7.1,"release_date":"2009-12-10","overview":"In the 22nd century, a paraplegic Marine is dispatched to the moon Pandora on a unique mission, but becomes torn between following orders and protecting an alien civilization.","actors":[{"id":65731,"character":"Jake Sully","name":"Sam Worthington","image":"http://image.tmdb.org/t/p/w300/9XzAE3ZnCnazub4xrSY8YBN7sNq.jpg"},{"id":8691,"character":"Neytiri","name":"Zoe Saldana","image":"http://image.tmdb.org/t/p/w300/g8nuPwQ9CXxfTVWK4r3TaxfQGqI.jpg"},{"id":10205,"character":"Dr. Grace Augustine","name":"Sigourney Weaver","image":"http://image.tmdb.org/t/p/w300/bcDb0vbfWZBHo1QEh9oQVRs3vx2.jpg"},{"id":32747,"character":"Col. Quaritch","name":"Stephen Lang","image":"http://image.tmdb.org/t/p/w300/tqF6ibURpLvRPlgvLRvjCQqWaa2.jpg"},{"id":17647,"character":"Trudy Chacon","name":"Michelle Rodriguez","image":"http://image.tmdb.org/t/p/w300/v37VK0MNuRuJOCKPKJcZAJXRA5r.jpg"},{"id":1771,"character":"Selfridge","name":"Giovanni Ribisi","image":"http://image.tmdb.org/t/p/w300/mLQrEU7X7GD5V7i1clGRqpg8PVk.jpg"},{"id":59231,"character":"Norm Spellman","name":"Joel David Moore","image":"http://image.tmdb.org/t/p/w300/y6AyGCsQHLoi4LegSS7VRtgRyJe.jpg"},{"id":30485,"character":"Moat","name":"CCH Pounder","image":"http://image.tmdb.org/t/p/w300/4Xu155Rt87p42HVxI2L6Hf9AB4w.jpg"},{"id":15853,"character":"Eytukan","name":"Wes Studi","image":"http://image.tmdb.org/t/p/w300/2b1hfAOoVjU7HoSbyHzGjl8DWs1.jpg"},{"id":10964,"character":"Tsu\'Tey","name":"Laz Alonso","image":"http://image.tmdb.org/t/p/w300/6zqlURffzAErl4g4d8kiUWYWmoz.jpg"}]}'
+
+
 var obj = JSON.parse(data);
 
 var renderer, scene, camera, geometry, raycaster, object3d, INTERSECTED;
-var distance = 200;
+var distance = 100;
 var particles = [];
 var projector, mouse = { x: 0, y: 0 };
 
@@ -24,14 +25,14 @@ var taille;
 if (obj.vote_average < 5) {
 	taille = 1;
 } else if (5 < obj.vote_average && 8 > obj.vote_average) {
-	taille = 100;
+	taille = 50;
 } else {
-	taille = 200;
+	taille = 100;
 }
 
 // Création d'un noeud central pour le film
 //TODO gérer la taille
-var texture = THREE.ImageUtils.loadTexture( obj.image_movie );
+var texture = THREE.ImageUtils.loadTexture( obj.image );
 
 var main = new THREE.Sprite( 
 		new THREE.SpriteMaterial({
@@ -57,22 +58,27 @@ main.position.z = 0;
 scene.add(main)
 particles.push(main)
 
-//{"cast_id":8,"character":"Selfridge","credit_id":"52fe48009251416c750ac9e1","id":1771,"name":"Giovanni Ribisi","order":5,"profile_path":"/mLQrEU7X7GD5V7i1clGRqpg8PVk.jpg"}
+// {"id":65731,"character":"Jake Sully","name":"Sam Worthington","image":"http://image.tmdb.org/t/p/w300/9XzAE3ZnCnazub4xrSY8YBN7sNq.jpg"}
 
 for (var i=0; i<obj.actors.length; i++) {
+	var texture2 = THREE.ImageUtils.loadTexture( obj.actors[i].image );
 	var particle = new THREE.Sprite( 
-		new THREE.SpriteCanvasMaterial({
-			color: Math.random() * 0x808080 + 0x808080,
-			opacity: 1,
-			program: function ( context ) {
-				context.lineWidth = 0.025;
-				context.beginPath();
-				context.arc( 0, 0, 1, 0, Math.PI * 2, true );
-				context.closePath();
-				context.fill();
-			},
+		new THREE.SpriteMaterial({
+			map: texture2
 		})
 	);
+
+		// new THREE.SpriteCanvasMaterial({
+		// 	color: Math.random() * 0x808080 + 0x808080,
+		// 	opacity: 1,
+		// 	program: function ( context ) {
+		// 		context.lineWidth = 0.025;
+		// 		context.beginPath();
+		// 		context.arc( 0, 0, 1, 0, Math.PI * 2, true );
+		// 		context.closePath();
+		// 		context.fill();
+		// 	},
+		// })
 
 	particle.userData = { 
 		type: "person",
@@ -85,7 +91,7 @@ for (var i=0; i<obj.actors.length; i++) {
 	particle.position.y = Math.random() * distance * 2 - distance;
 	particle.position.z = Math.random() * distance * 2 - distance;
 	// dimension de la particule
-	particle.scale.x = particle.scale.y = Math.random() * 10 + 5;
+	particle.scale.x = particle.scale.y = Math.random() * 50 + 5;
 
 	window.addEventListener('mousedown', onDocumentMouseDown, false);
 
