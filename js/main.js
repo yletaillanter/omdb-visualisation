@@ -13,7 +13,7 @@ raycaster = new THREE.Raycaster();
 mouse = new THREE.Vector2();
 camera = new THREE.PerspectiveCamera(50, window.innerWidth/window.innerHeight, 1, 100000);
 scene = new THREE.Scene();
-renderer = new THREE.CanvasRenderer();
+renderer = new THREE.CanvasRenderer({alpha: true});
 //object3d = new THREE.Object3D();
 
 renderer.setSize( window.innerWidth, window.innerHeight );
@@ -84,7 +84,8 @@ for (var i=0; i<obj.actors.length; i++) {
 		type: "person",
 		id: obj.actors[i].id,
 		name: obj.actors[i].name,
-		character: obj.actors[i].character
+		character: obj.actors[i].character,
+		generated: false
 	};
 
 	particle.position.x = Math.random() * distance * 2 - distance;
@@ -152,7 +153,7 @@ function onDocumentMouseDown( event ) {
 			console.log("Title : "+intersects[ 0 ].object.userData.title+" Tagline : "+ intersects[ 0 ].object.userData.tagline);
 		} else {
 			console.log("Name : "+intersects[ 0 ].object.userData.name+" character : "+ intersects[ 0 ].object.userData.character);	
-			generateNextNode("person", intersects[ 0 ].object.id, intersects[ 0 ].object.position.x, intersects[ 0 ].object.position.y, intersects[ 0 ].object.position.z );
+			generateNextNode("person", intersects[ 0 ].object);
 		} 
 	}
 
@@ -204,8 +205,60 @@ function onDocumentKeyDown(event){
 		}
 }
 
-function generateNextNode(type, id, x, y, z){
-	console.log("type : "+type+" id : "+id+" x : "+ x + " y : "+y+" z : "+z);
+function generateNextNode(type, object){
+
+	// LAUNCH NEW AJAX REQUEST
+
+	if (!object.generated) {
+			console.log("Generate next nodes ...");
+			var length = 6;
+			var obj2;
+			
+			for ( var i = 0; i<length; i++) {
+				var particle = new THREE.Sprite( 
+					new THREE.SpriteCanvasMaterial({
+						color: Math.random() * 0x808080 + 0x808080,
+						opacity: 1,
+						program: function ( context ) {
+							context.lineWidth = 0.025;
+							context.beginPath();
+							context.arc( 0, 0, 1, 0, Math.PI * 2, true );
+							context.closePath();
+							context.fill();
+						},
+					})
+				);
+				particle.userData = { 
+					type: "movie",
+					id: 5,
+					name: "test",
+					character: "test",
+					generated: false
+				};
+
+				particle.position.x = Math.random() * distance * 2 - distance;
+				particle.position.y = Math.random() * distance * 2 - distance;
+				particle.position.z = Math.random() * distance * 2 - distance;
+				// dimension de la particule
+				particle.scale.x = particle.scale.y = Math.random() * 5 + 5;
+
+				scene.add(particle);
+				particles.push( particle );
+
+				geometry.vertices.push(new THREE.Vector3(object.position.x, object.position.y, object.position.z), new THREE.Vector3(particle.position.x, particle.position.y, particle.position.z)); 
+			}
+			var line = new THREE.Line( geometry, 
+				new THREE.LineBasicMaterial({ 
+				color: "#AAA",
+				opacity: 0.8
+			})
+		);
+		object.generated = true;
+	} else {
+		console.log("Already generated");
+	}
+
 }
+
 
 render();
